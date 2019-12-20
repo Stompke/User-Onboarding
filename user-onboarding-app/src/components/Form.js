@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { withFormik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
+import { any } from 'prop-types';
 
 const MyForm = ({values, errors, touched, status}) => {
 
@@ -44,7 +45,7 @@ const MyForm = ({values, errors, touched, status}) => {
         </div>
     );
 }
-
+const takenEmails = ['waffle@syrup.com'];
 const FormikMyForm = withFormik({
     mapPropsToValues({name , email}) {
         return {
@@ -62,7 +63,7 @@ const FormikMyForm = withFormik({
         email: Yup.string()
             .email('Invalid Email')
             .required('Please enter an email')
-            .matches('waffle@syrup.com', 'email already taken')
+            .notOneOf(takenEmails , 'Email already taken')
       }),
       handleSubmit(values, {setStatus, resetForm}) {
           console.log('submitting...', values);
